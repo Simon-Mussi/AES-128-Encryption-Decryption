@@ -16,42 +16,42 @@ AES (Advanced Encryption Standard) is a symmetric block cipher standardized by N
 ## Repository Structure
 
 ## Repository Structure
-
-AES-128-Encryption-Decryption
-│
-├── AES-128/
-│    ├── aes_128.v                    # Top-level AES-128 encryption module
-│    ├── aes_128_decrypt.v            # Top-level AES-128 decryption module
-│    ├── aes_round_iteration.v        # Handles each round of AES encryption
-│    ├── aes_last_round.v             # Final round of AES encryption (no MixColumns)
-│    ├── aes_decryption_round.v       # Handles each round of AES decryption
-│    ├── aes_decryption_last_round.v  # Final round of AES decryption (no InvMixColumns)
-│    │
-│    ├── keygeneration.v              # Module for generating round keys from the initial key
-│    │
-│    ├── sub_bytes.v                  # SubBytes transformation (uses S-Box)
-│    ├── shift_rows.v                 # ShiftRows transformation for encryption
-│    ├── mix_columns.v                # MixColumns transformation for encryption
-│    ├── sbox.v                       # S-Box used for SubBytes transformation
-│    │
-│    ├── inv_sub_bytes.v              # InvSubBytes transformation (uses Inverse S-Box)
-│    ├── inv_shift_rows.v             # InvShiftRows transformation for decryption
-│    ├── inv_mix_columns.v            # InvMixColumns transformation for decryption
-│    ├── inv_sbox.v                   # Inverse S-Box used for InvSubBytes transformation
-│    │
-│    │
-│    ├── aes_128_TB.v             # Testbench for AES-128 encryption module
-│    ├── aes_128_decrypt_tb.v     # Testbench for AES-128 decryption module
-│    ├── sub_bytes_tb.v           # Testbench for the SubBytes module
-│    ├── inv_sub_bytes_tb.v       # Testbench for the InvSubBytes module
-│    ├── mix_columns_tb.v         # Testbench for the MixColumns module
-│    └── inv_mix_columns_tb.v     # Testbench for the InvMixColumns module
-│
-├── docs/                        # Documentation and reference materials
-│   └── NIST.FIPS.197-upd1-9.pdf # Official AES specification document by NIST
-│
-└── README.md                    # Project description and instructions
-
+    ```bash
+    AES-128-Encryption-Decryption
+    │
+    ├── AES-128/
+    │    ├── aes_128.v                    # Top-level AES-128 encryption module
+    │    ├── aes_128_decrypt.v            # Top-level AES-128 decryption module
+    │    ├── aes_round_iteration.v        # Handles each round of AES encryption
+    │    ├── aes_last_round.v             # Final round of AES encryption (no MixColumns)
+    │    ├── aes_decryption_round.v       # Handles each round of AES decryption
+    │    ├── aes_decryption_last_round.v  # Final round of AES decryption (no InvMixColumns)
+    │    │
+    │    ├── keygeneration.v              # Module for generating round keys from the initial key
+    │    │
+    │    ├── sub_bytes.v                  # SubBytes transformation (uses S-Box)
+    │    ├── shift_rows.v                 # ShiftRows transformation for encryption
+    │    ├── mix_columns.v                # MixColumns transformation for encryption
+    │    ├── sbox.v                       # S-Box used for SubBytes transformation
+    │    │
+    │    ├── inv_sub_bytes.v              # InvSubBytes transformation (uses Inverse S-Box)
+    │    ├── inv_shift_rows.v             # InvShiftRows transformation for decryption
+    │    ├── inv_mix_columns.v            # InvMixColumns transformation for decryption
+    │    ├── inv_sbox.v                   # Inverse S-Box used for InvSubBytes transformation
+    │    │
+    │    │
+    │    ├── aes_128_TB.v             # Testbench for AES-128 encryption module
+    │    ├── aes_128_decrypt_tb.v     # Testbench for AES-128 decryption module
+    │    ├── sub_bytes_tb.v           # Testbench for the SubBytes module
+    │    ├── inv_sub_bytes_tb.v       # Testbench for the InvSubBytes module
+    │    ├── mix_columns_tb.v         # Testbench for the MixColumns module
+    │    └── inv_mix_columns_tb.v     # Testbench for the InvMixColumns module
+    │
+    ├── docs/                        # Documentation and reference materials
+    │   └── NIST.FIPS.197-upd1-9.pdf # Official AES specification document by NIST
+    │
+    └── README.md                    # Project description and instructions
+    ```
 
 ## Getting Started
 
