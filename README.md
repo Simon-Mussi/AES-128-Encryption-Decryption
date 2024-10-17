@@ -32,9 +32,11 @@ AES (Advanced Encryption Standard) is a symmetric block cipher standardized by N
    cd AES-128-Encryption-Decryption
 
 2. **Compile and run the simulation using a Verilog simulator. For example, using Icarus Verilog**
+    ```bash
     iverilog -o aes_sim aes_128.v aes_round_iteration.v keygeneration.v sub_bytes.v shift_rows.v mix_columns.v sbox.v
     vvp aes_sim
 3. **To test decryption**
+    ```bash
     iverilog -o aes_dec_sim aes_128_decrypt.v aes_decryption_round.v keygeneration.v inv_sub_bytes.v inv_shift_rows.v inv_mix_columns.v inv_sbox.v
     vvp aes_dec_sim
 
