@@ -47,6 +47,15 @@ AES (Advanced Encryption Standard) is a symmetric block cipher standardized by N
     │    ├── mix_columns_tb.v         # Testbench for the MixColumns module
     │    └── inv_mix_columns_tb.v     # Testbench for the InvMixColumns module
     │
+    ├── Basic Hardware Implementations/   # Some basic tests with ChatGPT
+    │   ├── FullAdder.v             
+    │   ├── Multiplier.v            
+    │   ├── RippleCarryAdder.v      
+    │   ├── simulation.out          
+    │   ├── Subtractor.v            
+    │   ├── tb_out.vcd              
+    │   └── Testbench.v             
+    │
     ├── docs/                        # Documentation and reference materials
     │   └── NIST.FIPS.197-upd1-9.pdf # Official AES specification document by NIST
     │
