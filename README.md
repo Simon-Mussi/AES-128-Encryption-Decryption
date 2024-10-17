@@ -16,7 +16,7 @@ AES (Advanced Encryption Standard) is a symmetric block cipher standardized by N
 ## Repository Structure
 
 ## Repository Structure
-    ```bash
+  
     AES-128-Encryption-Decryption
     │
     ├── AES-128/
@@ -51,7 +51,6 @@ AES (Advanced Encryption Standard) is a symmetric block cipher standardized by N
     │   └── NIST.FIPS.197-upd1-9.pdf # Official AES specification document by NIST
     │
     └── README.md                    # Project description and instructions
-    ```
 
 ## Getting Started
 
