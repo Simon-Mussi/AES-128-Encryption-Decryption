@@ -4,48 +4,49 @@
 module MIX_COLUMNS(
     input clk,
     input [127:0] IN_DATA,
-    output [127:0] MIXED_DATA
+    output reg [127:0] MIXED_DATA
 );
 
-    reg [127:0] MIX_DATA_REG;
-
-    always @(*) begin
-        MIX_DATA_REG[127:120] = MIX_COLUMN(IN_DATA[127:120],IN_DATA[119:112],IN_DATA[111:104],IN_DATA[103:96]);
-        MIX_DATA_REG[119:112] = MIX_COLUMN(IN_DATA[119:112],IN_DATA[111:104],IN_DATA[103:96],IN_DATA[127:120]);
-        MIX_DATA_REG[111:104] = MIX_COLUMN(IN_DATA[111:104],IN_DATA[103:96],IN_DATA[127:120],IN_DATA[119:112]);
-        MIX_DATA_REG[103:96] = MIX_COLUMN(IN_DATA[103:96],IN_DATA[127:120],IN_DATA[119:112],IN_DATA[111:104]);
-
-        MIX_DATA_REG[95:88] = MIX_COLUMN(IN_DATA[95:88],IN_DATA[87:80],IN_DATA[79:72],IN_DATA[71:64]);
-        MIX_DATA_REG[87:80] = MIX_COLUMN(IN_DATA[87:80],IN_DATA[79:72],IN_DATA[71:64],IN_DATA[95:88]);
-        MIX_DATA_REG[79:72] = MIX_COLUMN(IN_DATA[79:72],IN_DATA[71:64],IN_DATA[95:88],IN_DATA[87:80]);
-        MIX_DATA_REG[71:64] = MIX_COLUMN(IN_DATA[71:64],IN_DATA[95:88],IN_DATA[87:80],IN_DATA[79:72]);
-
-        MIX_DATA_REG[63:56] = MIX_COLUMN(IN_DATA[63:56],IN_DATA[55:48],IN_DATA[47:40],IN_DATA[39:32]);
-        MIX_DATA_REG[55:48] = MIX_COLUMN(IN_DATA[55:48],IN_DATA[47:40],IN_DATA[39:32],IN_DATA[63:56]);
-        MIX_DATA_REG[47:40] = MIX_COLUMN(IN_DATA[47:40],IN_DATA[39:32],IN_DATA[63:56],IN_DATA[55:48]);
-        MIX_DATA_REG[39:32] = MIX_COLUMN(IN_DATA[39:32],IN_DATA[63:56],IN_DATA[55:48],IN_DATA[47:40]);
-
-        MIX_DATA_REG[31:24] = MIX_COLUMN(IN_DATA[31:24],IN_DATA[23:16],IN_DATA[15:8],IN_DATA[7:0]);
-        MIX_DATA_REG[23:16] = MIX_COLUMN(IN_DATA[23:16],IN_DATA[15:8],IN_DATA[7:0],IN_DATA[31:24]);
-        MIX_DATA_REG[15:8] = MIX_COLUMN(IN_DATA[15:8],IN_DATA[7:0],IN_DATA[31:24],IN_DATA[23:16]);
-        MIX_DATA_REG[7:0] = MIX_COLUMN(IN_DATA[7:0],IN_DATA[31:24],IN_DATA[23:16],IN_DATA[15:8]);
-    end
-
-    assign MIXED_DATA = MIX_DATA_REG;
-
-    // Function to apply the Galois Field operations for MixColumns.
-    function [7:0] MIX_COLUMN;
-        input [7:0] IN1, IN2, IN3, IN4;
+    // Galois field multiplication by 2
+    function [7:0] gm2;
+        input [7:0] b;
         begin
-            MIX_COLUMN[7] = IN1[6]^IN2[6]^IN2[7]^IN3[7]^IN4[7];
-            MIX_COLUMN[6] = IN1[5]^IN2[5]^IN2[6]^IN3[6]^IN4[6];
-            MIX_COLUMN[5] = IN1[4]^IN2[4]^IN2[5]^IN3[5]^IN4[5];
-            MIX_COLUMN[4] = IN1[3]^IN1[7]^IN2[3]^IN2[4]^IN2[7]^IN3[4]^IN4[4];
-            MIX_COLUMN[3] = IN1[2]^IN1[7]^IN2[2]^IN2[3]^IN2[7]^IN3[3]^IN4[3];
-            MIX_COLUMN[2] = IN1[1]^IN2[1]^IN2[2]^IN3[2]^IN4[2];
-            MIX_COLUMN[1] = IN1[0]^IN1[7]^IN2[0]^IN2[1]^IN2[7]^IN3[1]^IN4[1];
-            MIX_COLUMN[0] = IN1[7]^IN2[7]^IN2[0]^IN3[0]^IN4[0];
+            gm2 = (b << 1);
+            if (b[7]) gm2 = gm2 ^ 8'h1b; // If the most significant bit was set, reduce by 0x1b.
         end
     endfunction
 
+    // Galois field multiplication by 3
+    function [7:0] gm3;
+        input [7:0] b;
+        begin
+            gm3 = gm2(b) ^ b;  // Multiplication by 3 is gm2(b) XOR b
+        end
+    endfunction
+
+    always @(posedge clk) begin
+        // First column
+        MIXED_DATA[127:120] <= gm2(IN_DATA[127:120]) ^ gm3(IN_DATA[119:112]) ^ IN_DATA[111:104] ^ IN_DATA[103:96];
+        MIXED_DATA[119:112] <= IN_DATA[127:120] ^ gm2(IN_DATA[119:112]) ^ gm3(IN_DATA[111:104]) ^ IN_DATA[103:96];
+        MIXED_DATA[111:104] <= IN_DATA[127:120] ^ IN_DATA[119:112] ^ gm2(IN_DATA[111:104]) ^ gm3(IN_DATA[103:96]);
+        MIXED_DATA[103:96]  <= gm3(IN_DATA[127:120]) ^ IN_DATA[119:112] ^ IN_DATA[111:104] ^ gm2(IN_DATA[103:96]);
+
+        // Second column
+        MIXED_DATA[95:88]   <= gm2(IN_DATA[95:88]) ^ gm3(IN_DATA[87:80]) ^ IN_DATA[79:72] ^ IN_DATA[71:64];
+        MIXED_DATA[87:80]   <= IN_DATA[95:88] ^ gm2(IN_DATA[87:80]) ^ gm3(IN_DATA[79:72]) ^ IN_DATA[71:64];
+        MIXED_DATA[79:72]   <= IN_DATA[95:88] ^ IN_DATA[87:80] ^ gm2(IN_DATA[79:72]) ^ gm3(IN_DATA[71:64]);
+        MIXED_DATA[71:64]   <= gm3(IN_DATA[95:88]) ^ IN_DATA[87:80] ^ IN_DATA[79:72] ^ gm2(IN_DATA[71:64]);
+
+        // Third column
+        MIXED_DATA[63:56]   <= gm2(IN_DATA[63:56]) ^ gm3(IN_DATA[55:48]) ^ IN_DATA[47:40] ^ IN_DATA[39:32];
+        MIXED_DATA[55:48]   <= IN_DATA[63:56] ^ gm2(IN_DATA[55:48]) ^ gm3(IN_DATA[47:40]) ^ IN_DATA[39:32];
+        MIXED_DATA[47:40]   <= IN_DATA[63:56] ^ IN_DATA[55:48] ^ gm2(IN_DATA[47:40]) ^ gm3(IN_DATA[39:32]);
+        MIXED_DATA[39:32]   <= gm3(IN_DATA[63:56]) ^ IN_DATA[55:48] ^ IN_DATA[47:40] ^ gm2(IN_DATA[39:32]);
+
+        // Fourth column
+        MIXED_DATA[31:24]   <= gm2(IN_DATA[31:24]) ^ gm3(IN_DATA[23:16]) ^ IN_DATA[15:8] ^ IN_DATA[7:0];
+        MIXED_DATA[23:16]   <= IN_DATA[31:24] ^ gm2(IN_DATA[23:16]) ^ gm3(IN_DATA[15:8]) ^ IN_DATA[7:0];
+        MIXED_DATA[15:8]    <= IN_DATA[31:24] ^ IN_DATA[23:16] ^ gm2(IN_DATA[15:8]) ^ gm3(IN_DATA[7:0]);
+        MIXED_DATA[7:0]     <= gm3(IN_DATA[31:24]) ^ IN_DATA[23:16] ^ IN_DATA[15:8] ^ gm2(IN_DATA[7:0]);
+    end
 endmodule

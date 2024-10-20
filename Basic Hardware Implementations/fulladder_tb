@@ -1,0 +1,109 @@
+#! /opt/homebrew/Cellar/icarus-verilog/12.0/bin/vvp
+:ivl_version "12.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 9;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/va_math.vpi";
+S_0x155006d40 .scope module, "FullAdder_tb" "FullAdder_tb" 2 3;
+ .timescale -9 -9;
+v0x15501f5e0_0 .var "a", 0 0;
+v0x15501f670_0 .var "b", 0 0;
+v0x15501f700_0 .var "cin", 0 0;
+v0x15501f7d0_0 .net "cout", 0 0, L_0x15501ff80;  1 drivers
+v0x15501f880_0 .net "sum", 0 0, L_0x15501fa80;  1 drivers
+S_0x155006eb0 .scope module, "uut" "FullAdder" 2 15, 3 1 0, S_0x155006d40;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "a";
+    .port_info 1 /INPUT 1 "b";
+    .port_info 2 /INPUT 1 "cin";
+    .port_info 3 /OUTPUT 1 "sum";
+    .port_info 4 /OUTPUT 1 "cout";
+L_0x15501f950 .functor XOR 1, v0x15501f5e0_0, v0x15501f670_0, C4<0>, C4<0>;
+L_0x15501fa80 .functor XOR 1, L_0x15501f950, v0x15501f700_0, C4<0>, C4<0>;
+L_0x15501fb70 .functor AND 1, v0x15501f5e0_0, v0x15501f670_0, C4<1>, C4<1>;
+L_0x15501fbe0 .functor AND 1, v0x15501f670_0, v0x15501f700_0, C4<1>, C4<1>;
+L_0x15501fcf0 .functor OR 1, L_0x15501fb70, L_0x15501fbe0, C4<0>, C4<0>;
+L_0x15501fe10 .functor AND 1, v0x15501f700_0, v0x15501f5e0_0, C4<1>, C4<1>;
+L_0x15501ff80 .functor OR 1, L_0x15501fcf0, L_0x15501fe10, C4<0>, C4<0>;
+v0x15500d470_0 .net *"_ivl_0", 0 0, L_0x15501f950;  1 drivers
+v0x15501eef0_0 .net *"_ivl_10", 0 0, L_0x15501fe10;  1 drivers
+v0x15501ef90_0 .net *"_ivl_4", 0 0, L_0x15501fb70;  1 drivers
+v0x15501f040_0 .net *"_ivl_6", 0 0, L_0x15501fbe0;  1 drivers
+v0x15501f0f0_0 .net *"_ivl_8", 0 0, L_0x15501fcf0;  1 drivers
+v0x15501f1e0_0 .net "a", 0 0, v0x15501f5e0_0;  1 drivers
+v0x15501f280_0 .net "b", 0 0, v0x15501f670_0;  1 drivers
+v0x15501f320_0 .net "cin", 0 0, v0x15501f700_0;  1 drivers
+v0x15501f3c0_0 .net "cout", 0 0, L_0x15501ff80;  alias, 1 drivers
+v0x15501f4d0_0 .net "sum", 0 0, L_0x15501fa80;  alias, 1 drivers
+    .scope S_0x155006d40;
+T_0 ;
+    %vpi_call 2 25 "$dumpfile", "fulladder_tb_output.vcd" {0 0 0};
+    %vpi_call 2 26 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x155006d40 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f5e0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f670_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f5e0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f670_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f5e0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f670_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f5e0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f670_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f5e0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f670_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f5e0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f670_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f5e0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f670_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x15501f700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f5e0_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f670_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x15501f700_0, 0, 1;
+    %delay 10, 0;
+    %vpi_call 2 54 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "FullAdder_tb.v";
+    "fulladder.v";

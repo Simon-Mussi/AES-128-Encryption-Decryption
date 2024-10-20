@@ -7,5 +7,5 @@ module FullAdder (
 );
     // The sum and carry-out logic
     assign sum = a ^ b ^ cin;
-    assign cout = (a & b) | (cin & (a ^ b));
+    assign cout = (a & b) | (b & cin)  | (cin & a) ;
 endmodule
